@@ -22,3 +22,11 @@ Route::get('/home', 'HomeController@index');
 Route::get('/redirect', 'SocialAuthController@redirect');
 Route::get('/callback', 'SocialAuthController@callback');
 
+Route::get('/note/create', 'NotesController@create');
+
+Route::post('/note/{id}/edit', ['uses' =>'NotesController@edit']);
+Route::post('/note/{id}/share', ['uses' =>'NotesController@share']);
+Route::post('/note/{id}/delete', ['uses' => 'NotesController@delete']);
+
+Route::get('/notes', 'NotesController@index');
+Route::get('/notes/search', 'NotesController@search');

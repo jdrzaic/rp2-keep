@@ -25,21 +25,30 @@ class NotesController extends Controller
         return json_encode(array('notes' => $notesResponseArray));
     }
 
-    public function myNotes() {
+    public function searchMyNotes(Request $request) {
         $notesService = new NotesService();
-        $notes = $notesService->getMyNotes();
+        if($request->has('query') == false) {
+            $matchedNotes = $notesService->getNotesForQuery("", "my");
+        } else {
+            $matchedNotes = $notesService->getNotesForQuery($request->input('query'), "my");
+        }
         $notesResponseArray = array();
-        foreach ($notes as $note) {
+        foreach ($matchedNotes as $note) {
             $notesResponseArray[] = $this->getNotesResponse($note);
         }
         return json_encode(array('notes' => $notesResponseArray));
     }
 
-    public function otherNotes() {
+    public function searchOtherNotes(Request $request) {
         $notesService = new NotesService();
-        $notes = $notesService->getOtherNotes();
+        if($request->has('query') == false) {
+            $matchedNotes = $notesService->getNotesForQuery("", "other");
+        } else {
+            $matchedNotes = $notesService->getNotesForQuery($request->input('query'), "other");
+        }
+        $matchedNotes = $notesService->getNotesForQuery($request->input('query'), "other");
         $notesResponseArray = array();
-        foreach ($notes as $note) {
+        foreach ($matchedNotes as $note) {
             $notesResponseArray[] = $this->getNotesResponse($note);
         }
         return json_encode(array('notes' => $notesResponseArray));

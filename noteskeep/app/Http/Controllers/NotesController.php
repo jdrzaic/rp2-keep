@@ -25,6 +25,26 @@ class NotesController extends Controller
         return json_encode(array('notes' => $notesResponseArray));
     }
 
+    public function myNotes() {
+        $notesService = new NotesService();
+        $notes = $notesService->getMyNotes();
+        $notesResponseArray = array();
+        foreach ($notes as $note) {
+            $notesResponseArray[] = $this->getNotesResponse($note);
+        }
+        return json_encode(array('notes' => $notesResponseArray));
+    }
+
+    public function otherNotes() {
+        $notesService = new NotesService();
+        $notes = $notesService->getOtherNotes();
+        $notesResponseArray = array();
+        foreach ($notes as $note) {
+            $notesResponseArray[] = $this->getNotesResponse($note);
+        }
+        return json_encode(array('notes' => $notesResponseArray));
+    }
+
     public function create() {
         $notesServise = new NotesService();
         $note = $notesServise->createNote();
@@ -99,6 +119,7 @@ class NotesController extends Controller
         $response = array(
             'id' => $note->id,
             'content' => $note->content,
+            'owner' => $note->owner,
             'tags' => array_values(array_unique($noteTagsNames)),
             'users' => array_values($noteUsersInfo)
         );

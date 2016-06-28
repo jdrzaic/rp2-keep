@@ -17,6 +17,7 @@ class NotesService {
     public function createNote() {
         $note = new Note;
         $note->content = '';
+        $note->owner = Auth::user()->email;
         $note->save();
         Auth::user()->note()->attach($note->id);
         return $note;
@@ -121,5 +122,27 @@ class NotesService {
             }
         }
         return $matchingNotes;
+    }
+
+    public function getMyNotes() {
+        $notes = Auth::user()->note;
+        $myNotes = array();
+        foreach ($notes as $note) {
+            if($note->owner == Auth::user()->email) {
+                $myNotes[] = $note;
+            }
+        }
+        return $myNotes;
+    }
+
+    public function getOtherNotes() {
+        $notes = Auth::user()->note;
+        $otherNotes = array();
+        foreach ($notes as $note) {
+            if($note->owner != Auth::user()->email) {
+                $otherNotes[] = $note;
+            }
+        }
+        return $otherNotes;
     }
 }

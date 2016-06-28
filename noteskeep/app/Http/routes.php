@@ -32,3 +32,4 @@ Route::get('/notes', 'NotesController@index');
 Route::get('/notes/search', 'NotesController@search');
 
 Route::get('/users', 'UsersController@search');
+Route::get('/user', 'UsersController@index');

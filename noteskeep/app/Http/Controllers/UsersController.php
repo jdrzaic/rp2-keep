@@ -6,15 +6,17 @@ use App\UsersService;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
     public function search(Request $request) {
-        if($request->has('q') == false) {
-            return array();
-        }
         $usersService = new UsersService();
-        $users = $usersService->getUsersByQuery($request->input('q'));
+        if($request->has('q') == false) {
+            $users = $usersService->getUsersByQuery("");
+        } else {
+            $users = $usersService->getUsersByQuery($request->input('q'));
+        }
         $usersInfo = array();
         foreach ($users as $user) {
             $usersInfo[] = array(
@@ -23,5 +25,13 @@ class UsersController extends Controller
             );
         }
         return json_encode(array('users' => array_values($usersInfo)));
+    }
+
+    public function index() {
+        $user = Auth::user();
+        if($user == null) {
+            return json_encode(array("user" => null));
+        }
+        return json_encode(array("user" => $user));
     }
 }

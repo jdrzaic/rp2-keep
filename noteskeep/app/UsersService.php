@@ -14,6 +14,9 @@ class UsersService {
 
     public function getUsersByQuery($query) {
         $users = DB::table('users')->get();
+        if($query == "") {
+            return $users;
+        }
         $matchingUsers = array();
         foreach ($users as $user) {
             $pos = strpos(strtolower($user->email), strtolower($query));

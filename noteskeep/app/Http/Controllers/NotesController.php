@@ -20,7 +20,7 @@ class NotesController extends Controller
         $notes = $notesService->getAllNotes();
         $notesResponseArray = array();
         foreach ($notes as $note) {
-            $notesResponseArray[] = self::getNotesResponse($note);
+            $notesResponseArray[] = $this->getNotesResponse($note);
         }
         return json_encode(array('notes' => $notesResponseArray));
     }
@@ -67,14 +67,17 @@ class NotesController extends Controller
         $matchedNotes = $notesService->getNotesForQuery($request->input('query'));
         $notesResponseArray = array();
         foreach ($matchedNotes as $note) {
-            $notesResponseArray[] = self::getNotesResponse($note);
+            $notesResponseArray[] = $this->getNotesResponse($note);
         }
         return json_encode(array('notes' => $notesResponseArray));
     }
 
     public function delete(Request $request, $id) {
         $notesService = new NotesService();
-        $notesService->deleteNote($id);
+        $deleted = $notesService->deleteNote($id);
+        if($deleted == false) {
+            return json_encode(array("status" => "note with id = $id does not exist"));
+        }
         return json_encode(array("status" => "note with id = $id deleted"));
     }
 

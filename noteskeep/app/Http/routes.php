@@ -19,8 +19,8 @@ Route::auth();
 
 Route::get('/home', 'HomeController@index');
 
-Route::get('/redirect', 'SocialAuthController@redirect');
-Route::get('/callback', 'SocialAuthController@callback');
+Route::get('/redirect/{provider}', 'SocialAuthController@redirect');
+Route::get('/callback/{provider}', 'SocialAuthController@callback');
 
 Route::get('/note/create', 'NotesController@create');
 
@@ -30,3 +30,5 @@ Route::post('/note/{id}/delete', ['uses' => 'NotesController@delete']);
 
 Route::get('/notes', 'NotesController@index');
 Route::get('/notes/search', 'NotesController@search');
+
+Route::get('/users', 'UsersController@search');

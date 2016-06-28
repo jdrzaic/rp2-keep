@@ -25,11 +25,12 @@ class NotesService {
     public function deleteNote($id) {
         $note = Note::find($id);
         if($note == null) {
-            return;
+            return false;
         }
         $note->user()->detach();
         $note->tag()->detach();
         DB::table('notes')->where('id', $id)->delete();
+        return true;
     }
 
     public function editNote($id, $content, $tags) {

@@ -19,8 +19,10 @@ routes:
 * __/note/{id}/delete__ - delete note with given id
 
 * __/notes__ - retrieve all notes for the user that's logged in(his or the ones shared with him) (GET)
-* __/notes/my__ - retrieve all notes logged user created (GET)
-* __/notes/my__ - retrieve all notes shared with logged user (GET) 
+* __/notes/my__ - search for notes logged user created (GET)
+    * query - content to search for (exact match or by tags) (e.g. __/notes/my?query=ana banana__ will match e.g. note="ja sam ana", note="ana banana", note="banana")
+* __/notes/other__ - search for notes shared with logged user (GET) 
+    * query - content to search for (exact match or by tags) (e.g. __/notes/other?query=ana banana__ will match e.g. note="ja sam ana", note="ana banana", note="banana")
 * __/notes/search__ - search for notes with given query (GET)
     * GET parameters:
         * query - content to search for (exact match or by tags) (e.g. __/notes/search?query=ana banana__ will match e.g. note="ja sam ana", note="ana banana", note="banana")
@@ -28,4 +30,3 @@ routes:
 * __/users__ returns all existing users
 * __/users?q=somequery__ returns all users whose emails match __somequery__ (e.g. __/users?q=an__ returns lana@mail.com, banana@mail.com)
 * __/user__ returns user that's logged in
-* 

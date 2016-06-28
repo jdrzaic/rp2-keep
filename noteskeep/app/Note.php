@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Note extends Model
 {
-    protected $fillable = ['content'];
+    protected $fillable = ['content', 'owner'];
 
     public function tag() {
         return $this->belongsToMany(Tag::class);

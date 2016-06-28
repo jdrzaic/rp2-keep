@@ -29,6 +29,8 @@ Route::post('/note/{id}/share', ['uses' =>'NotesController@share']);
 Route::post('/note/{id}/delete', ['uses' => 'NotesController@delete']);
 
 Route::get('/notes', 'NotesController@index');
+Route::get('/notes/my', 'NotesController@searchMyNotes');
+Route::get('/notes/other', 'NotesController@searchOtherNotes');
 Route::get('/notes/search', 'NotesController@search');
 
 Route::get('/users', 'UsersController@search');

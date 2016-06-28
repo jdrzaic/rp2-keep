@@ -17,6 +17,7 @@ class NotesService {
     public function createNote() {
         $note = new Note;
         $note->content = '';
+        $note->owner = Auth::user()->email;
         $note->save();
         Auth::user()->note()->attach($note->id);
         return $note;
@@ -86,8 +87,17 @@ class NotesService {
         return $users;
     }
 
-    public function getNotesForQuery($query) {
-        $notes = Auth::user()->note;
+    public function getNotesForQuery($query, $part = "") {
+        if($part == "my" ) {
+            $notes = $this->getMyNotes();
+        } elseif ($part == "other") {
+            $notes = $this->getOtherNotes();
+        } else {
+            $notes = Auth::user()->note;
+        }
+        if($query == "") {
+            return $notes;
+        }
         $notesContentMatch = $this->getNotesByContent($query, $notes);
         $notesTagsMatch = $this->getNotesByTag(Util::parseTags($query), $notes);
         return array_unique(array_merge($notesContentMatch, $notesTagsMatch));
@@ -96,7 +106,7 @@ class NotesService {
     private function getNotesByContent($content, $notes) {
         $matchingNotes = array();
         foreach ($notes as $note) {
-            $pos = strpos($note->content, $content);
+            $pos = strpos(strtolower($note->content), strtolower($content));
             if($pos === false) {
                 continue;
             }
@@ -111,7 +121,7 @@ class NotesService {
             foreach ($notes as $note) {
                 $noteTags = $this->getTagsForNote($note);
                 foreach ($noteTags as $noteTag) {
-                    $pos = strpos($noteTag->name, $tag);
+                    $pos = strpos(strtolower($noteTag->name), strtolower($tag));
                     if($pos === false) {
                         continue;
                     }
@@ -121,5 +131,27 @@ class NotesService {
             }
         }
         return $matchingNotes;
+    }
+
+    public function getMyNotes() {
+        $notes = Auth::user()->note;
+        $myNotes = array();
+        foreach ($notes as $note) {
+            if($note->owner == Auth::user()->email) {
+                $myNotes[] = $note;
+            }
+        }
+        return $myNotes;
+    }
+
+    public function getOtherNotes() {
+        $notes = Auth::user()->note;
+        $otherNotes = array();
+        foreach ($notes as $note) {
+            if($note->owner != Auth::user()->email) {
+                $otherNotes[] = $note;
+            }
+        }
+        return $otherNotes;
     }
 }

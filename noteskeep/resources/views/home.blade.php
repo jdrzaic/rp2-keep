@@ -15,8 +15,8 @@
         </div>
     </div>
 </div>
-<!-- test, to be removed
-<form class="form-horizontal" role="form" method="POST" action="{{ url('/note/15/edit') }}">
+<!-- test, to be removed-->
+<form class="form-horizontal" role="form" method="POST" action="{{ url('/note/1/edit') }}">
         First name:<br>
         <input type="text" name="content" value="Mickey"><br>
         Last name:<br>
@@ -24,5 +24,5 @@
     <button type="submit" class="btn btn-primary">
         <i class="fa fa-btn fa-sign-in"></i> editiraj
     </button>
-</form>-->
+</form>
 @endsection

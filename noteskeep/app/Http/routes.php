@@ -35,3 +35,4 @@ Route::get('/notes/search', 'NotesController@search');
 
 Route::get('/users', 'UsersController@search');
 Route::get('/user', 'UsersController@index');
+Route::get('/report', 'NotesController@reportShare');

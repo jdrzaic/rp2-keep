@@ -4,10 +4,9 @@ namespace App\Http\Controllers;
 
 use App\NotesService;
 use Illuminate\Http\Request;
-use App\Note;
 use App\Http\Requests;
 use App\Util;
-use App\Tag;
+use Illuminate\Support\Facades\DB;
 
 class NotesController extends Controller
 {
@@ -52,6 +51,26 @@ class NotesController extends Controller
             $notesResponseArray[] = $this->getNotesResponse($note);
         }
         return json_encode(array('notes' => $notesResponseArray));
+    }
+
+    public function reportShare(Request $request) {
+        if($request->has('last_access_time') == false) {
+            return json_encode(array("error" => 'parameter "last_access_time" missing'));
+        }
+        $lastAccess = $request->input('last_access_time');
+        while(true) {
+            $lastModifiedDate = DB::table('notes')->max('updated_at');
+            if($lastModifiedDate == null) {
+                usleep(5000000);
+                continue;
+            }
+            $lastModified = strtotime($lastModifiedDate);
+            if($lastModified > $lastAccess) {
+                $addedNotes = DB::table('notes')->where('updated_at', '>', $lastAccess)->get();
+                return $addedNotes;
+            }
+            sleep(5000000);
+        }
     }
 
     public function create() {

@@ -33,4 +33,3 @@ routes:
 
 * __TODO__ 
     * share notification; adding route for long pooling
-    * bug fix - access(not shared notes)

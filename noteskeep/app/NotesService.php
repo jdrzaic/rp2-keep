@@ -154,4 +154,12 @@ class NotesService {
         }
         return $otherNotes;
     }
+
+    public function isNoteAccessible($id) {
+        $accessible = DB::table('note_user')->where('note_id', $id)->where('user_id', Auth::user()->id)->first();
+        if($accessible == null) {
+            return false;
+        }
+        return true;
+    }
 }

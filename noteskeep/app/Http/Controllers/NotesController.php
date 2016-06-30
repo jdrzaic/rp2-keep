@@ -84,16 +84,23 @@ class NotesController extends Controller
      * @param $id
      */
     public function share(Request $request, $id) {
+        $notesService = new NotesService();
+        if($notesService->isNoteAccessible($id) == false) {
+            return json_encode(array("error" => "permission denied(note is not created by or shared with you"));
+        }
         if($request->has('email') == false) {
             return json_encode(array('error' => 'parameter "email" missing'));
         }
         $email = $request->input('email');
-        $notesService = new NotesService();
         $note = $notesService->shareNote($id, $email);
         return json_encode($this->getNotesResponse($note));
     }
 
     public function edit(Request $request, $id) {
+        $notesService = new NotesService();
+        if($notesService->isNoteAccessible($id) == false) {
+            return json_encode(array("error" => "permission denied(note is not created by or shared with you"));
+        }
         if($request->has('content') == false) {
             return json_encode(array('error' => 'parameter "content" missing'));
         }
@@ -102,8 +109,7 @@ class NotesController extends Controller
         if($request->has('tags')) {
             $tags = Util::parseTags($request->input('tags'));
         }
-        $notesServise = new NotesService();
-        $note = $notesServise->editNote($id, $content, $tags);
+        $note = $notesService->editNote($id, $content, $tags);
         return json_encode($this->getNotesResponse($note));
     }
 
@@ -122,6 +128,9 @@ class NotesController extends Controller
 
     public function delete(Request $request, $id) {
         $notesService = new NotesService();
+        if($notesService->isNoteAccessible($id) == false) {
+            return json_encode(array("error" => "permission denied(note is not created by or shared with you"));
+        }
         $deleted = $notesService->deleteNote($id);
         if($deleted == false) {
             return json_encode(array("status" => "note with id = $id does not exist"));

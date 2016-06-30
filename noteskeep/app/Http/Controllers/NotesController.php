@@ -19,7 +19,7 @@ class NotesController extends Controller
         $notes = $notesService->getAllNotes();
         $notesResponseArray = array();
         foreach ($notes as $note) {
-            $notesResponseArray[] = $this->getNotesResponse($note);
+            $notesResponseArray[] = Util::getNotesResponse($note);
         }
         return json_encode(array('notes' => $notesResponseArray));
     }
@@ -33,7 +33,7 @@ class NotesController extends Controller
         }
         $notesResponseArray = array();
         foreach ($matchedNotes as $note) {
-            $notesResponseArray[] = $this->getNotesResponse($note);
+            $notesResponseArray[] = Util::getNotesResponse($note);
         }
         return json_encode(array('notes' => $notesResponseArray));
     }
@@ -48,7 +48,7 @@ class NotesController extends Controller
         $matchedNotes = $notesService->getNotesForQuery($request->input('query'), "other");
         $notesResponseArray = array();
         foreach ($matchedNotes as $note) {
-            $notesResponseArray[] = $this->getNotesResponse($note);
+            $notesResponseArray[] = Util::getNotesResponse($note);
         }
         return json_encode(array('notes' => $notesResponseArray));
     }
@@ -72,47 +72,7 @@ class NotesController extends Controller
             sleep(5000000);
         }
     }
-
-    public function create() {
-        $notesServise = new NotesService();
-        $note = $notesServise->createNote();
-        return $note->toJson();
-    }
-
-    /**
-     * @param Request $request
-     * @param $id
-     */
-    public function share(Request $request, $id) {
-        $notesService = new NotesService();
-        if($notesService->isNoteAccessible($id) == false) {
-            return json_encode(array("error" => "permission denied(note is not created by or shared with you"));
-        }
-        if($request->has('email') == false) {
-            return json_encode(array('error' => 'parameter "email" missing'));
-        }
-        $email = $request->input('email');
-        $note = $notesService->shareNote($id, $email);
-        return json_encode($this->getNotesResponse($note));
-    }
-
-    public function edit(Request $request, $id) {
-        $notesService = new NotesService();
-        if($notesService->isNoteAccessible($id) == false) {
-            return json_encode(array("error" => "permission denied(note is not created by or shared with you"));
-        }
-        if($request->has('content') == false) {
-            return json_encode(array('error' => 'parameter "content" missing'));
-        }
-        $content = $request->input('content');
-        $tags = array();
-        if($request->has('tags')) {
-            $tags = Util::parseTags($request->input('tags'));
-        }
-        $note = $notesService->editNote($id, $content, $tags);
-        return json_encode($this->getNotesResponse($note));
-    }
-
+    
     public function search(Request $request) {
         $notesService = new NotesService();
         if($request->has('query') == false) {
@@ -121,45 +81,8 @@ class NotesController extends Controller
         $matchedNotes = $notesService->getNotesForQuery($request->input('query'));
         $notesResponseArray = array();
         foreach ($matchedNotes as $note) {
-            $notesResponseArray[] = $this->getNotesResponse($note);
+            $notesResponseArray[] = Util::getNotesResponse($note);
         }
         return json_encode(array('notes' => $notesResponseArray));
-    }
-
-    public function delete(Request $request, $id) {
-        $notesService = new NotesService();
-        if($notesService->isNoteAccessible($id) == false) {
-            return json_encode(array("error" => "permission denied(note is not created by or shared with you"));
-        }
-        $deleted = $notesService->deleteNote($id);
-        if($deleted == false) {
-            return json_encode(array("status" => "note with id = $id does not exist"));
-        }
-        return json_encode(array("status" => "note with id = $id deleted"));
-    }
-
-    public function getNotesResponse($note) {
-        $notesService = new NotesService();
-        $noteTags = $notesService->getTagsForNote($note);
-        $noteTagsNames = array();
-        foreach ($noteTags as $noteTag) {
-            $noteTagsNames[] = $noteTag->name;
-        }
-        $noteUsers = $notesService->getUsersForNote($note);
-        $noteUsersInfo = array();
-        foreach ($noteUsers as $noteUser) {
-            $noteUsersInfo[] = array(
-                "email" => $noteUser->email,
-                "name" => $noteUser->name
-            );
-        }
-        $response = array(
-            'id' => $note->id,
-            'content' => $note->content,
-            'owner' => $note->owner,
-            'tags' => array_values(array_unique($noteTagsNames)),
-            'users' => array_values($noteUsersInfo)
-        );
-        return $response;
     }
 }

@@ -72,6 +72,10 @@ class NotesService {
         return $note;
     }
 
+    public function getNote($id) {
+        return Note::find($id);
+    }
+
     public function getAllNotes() {
         $notes = Auth::user()->note;
         return $notes;

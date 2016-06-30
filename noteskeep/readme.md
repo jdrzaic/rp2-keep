@@ -31,4 +31,6 @@ routes:
 * __/users?q=somequery__ returns all users whose emails match __somequery__ (e.g. __/users?q=an__ returns lana@mail.com, banana@mail.com)
 * __/user__ returns user that's logged in
 
-* __TODO__ share notification; adding route for long pooling
+* __TODO__ 
+    * share notification; adding route for long pooling
+    * bug fix - access(not shared notes)

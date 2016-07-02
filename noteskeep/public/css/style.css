@@ -1,0 +1,39 @@
+body {
+    background-color: lightblue;
+}
+
+.search-box {
+    border: none;
+    width: 100%;
+}
+
+#new-note-btn {
+    background-color: #ffeb60;
+    height: 50px;
+    width: 50px;
+    line-height: 35px;
+    font-size: 30px;
+    font-weight: 900;
+}
+
+.extra-bot-margin {
+    margin-bottom: 20px;
+}
+
+.note-panel {
+    min-height: 80px;
+    background-color: lightgoldenrodyellow;
+}
+
+.note-input {
+    width: 100%;
+    height: 100%;
+    padding: 25px;
+    border: none;
+    background: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    outline: none;
+    resize: none;
+    font-size: 20px;
+}

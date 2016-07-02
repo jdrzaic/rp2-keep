@@ -8,12 +8,23 @@ use App\Http\Requests;
 use App\Util;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Class NotesController
+ * @package App\Http\Controllers
+ */
 class NotesController extends Controller
 {
+    /**
+     * NotesController constructor.
+     */
     public function __construct() {
         $this->middleware('auth');
     }
 
+    /**
+     * Method returns all notes owned by or shared with logged user.
+     * @return json notes
+     */
     public function index() {
         $notesService = new NotesService();
         $notes = $notesService->getAllNotes();
@@ -24,6 +35,11 @@ class NotesController extends Controller
         return json_encode(array('notes' => $notesResponseArray));
     }
 
+    /**
+     * Method searches through notes owned by logged user.
+     * @param Request $request
+     * @return notes that match the given POST variable 'query'(by content or one of tags)
+     */
     public function searchMyNotes(Request $request) {
         $notesService = new NotesService();
         if($request->has('query') == false) {

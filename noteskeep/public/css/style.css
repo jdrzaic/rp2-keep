@@ -5,6 +5,7 @@ body {
 .search-box {
     border: none;
     width: 100%;
+    outline: none;
 }
 
 #new-note-btn {
@@ -36,4 +37,75 @@ body {
     outline: none;
     resize: none;
     font-size: 20px;
+}
+
+.tag-input {
+    padding: 25px;
+    background: none;
+    border: none;
+    outline: none;
+    word-spacing: 20px;
+    width: 70%;
+}
+
+.tag-label {
+    padding-left: 25px;
+}
+
+.user-float {
+    float: left;
+    position: absolute;
+    background-color: lightgoldenrodyellow;
+    width: 200px;
+    margin-left: 50px;
+    padding: 15px;
+    text-align: center;
+}
+
+.share-btn-container {
+    float: right;
+    padding: 25px;
+}
+
+.share-panel-blackout {
+    z-index: 1000;
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+    left: 0px;
+    top: 0px;
+}
+
+.share-panel {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10%;
+    padding: 25px;
+    font-size: 20px;
+    background-color: lightgoldenrodyellow;
+}
+
+#share-input {
+    border: none;
+    outline: none;
+    background: none;
+    padding: 25px;
+    width: 100%;
+}
+
+#share-text-btn {
+    float: none;
+    background-color: lightgreen;
+}
+
+#cancel-share-btn {
+    float: right;
+    background-color: lightsalmon;
+}
+
+.shared-note {
+    background-color: #faead2;
 }

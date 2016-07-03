@@ -16,9 +16,9 @@
     </div>
 </div>
 <!-- test, to be removed
-<form class="form-horizontal" role="form" method="POST" action="{{ url('/note/1/delete') }}">
+<form class="form-horizontal" role="form" method="POST" action="{{ url('/note/6/edit') }}">
         First name:<br>
-        <input type="text" name="email" value="Mickey"><br>
+        <input type="text" name="ggg" value=""><br>
         Last name:<br>
         <input type="text" name="tags" value="Mouse"><br><br>
     <button type="submit" class="btn btn-primary">

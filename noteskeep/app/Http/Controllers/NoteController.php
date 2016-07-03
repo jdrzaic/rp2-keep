@@ -80,7 +80,7 @@ class NoteController extends Controller
         if($notesService->isNoteAccessible($id) == false) {
             return json_encode(array('error' => 'permission denied(note is not created by or shared with you'));
         }
-        if($request->has('content') == false) {
+        if($request->exists('content') == false) {
             return json_encode(array('error' => 'parameter "content" missing'));
         }
         $content = $request->input('content');

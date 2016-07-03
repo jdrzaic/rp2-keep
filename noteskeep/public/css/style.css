@@ -1,5 +1,6 @@
 body {
     background-color: lightblue;
+    padding-top: 20px;
 }
 
 .search-box {
@@ -18,7 +19,7 @@ body {
 }
 
 .extra-bot-margin {
-    margin-bottom: 20px;
+    /*margin-bottom: 20px;*/
 }
 
 .note-panel {
@@ -56,15 +57,25 @@ body {
     float: left;
     position: absolute;
     background-color: lightgoldenrodyellow;
-    width: 200px;
+    width: 220px;
     margin-left: 50px;
     padding: 15px;
     text-align: center;
 }
 
+#user-email-span {
+    float: left;
+    line-height: 35px;
+    padding-left: 10px;
+}
+
+.logout-btn {
+    float: right;
+}
+
 .share-btn-container {
     float: right;
-    padding: 25px;
+    padding: 25px 10px 25px 25px;
 }
 
 .share-panel-blackout {
@@ -108,4 +119,21 @@ body {
 
 .shared-note {
     background-color: #faead2;
+}
+
+.shared-by-label {
+    position: absolute;
+    top: 10px;
+    right: 30px;
+    font-size: 12px;
+    color: grey;
+}
+
+.download-float {
+    width: 200px;
+    float: right;
+    margin-right: 50px;
+    padding: 10px;
+    text-align: center;
+    background-color: lightgoldenrodyellow;
 }

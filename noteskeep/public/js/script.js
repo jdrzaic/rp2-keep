@@ -24,7 +24,9 @@ function updateTags(tagText) {
 function addNote(note) {
     var owned = note.owner == currentUser;
     var sharedClass = owned ? "" : "shared-note";
-    var template = "\n        <div class=\"row\">\n            <div class=\"col-md-10 col-md-offset-1\">\n                <div class=\"panel note-panel " + sharedClass + " panel-default\">\n                    <textarea class=\"note-input\"\n                              onkeydown=\"checkDelete(event, this)\"\n                              onkeyup=\"updateNote(this)\"\n                              data-note-id=" + note.id + "\n                              onfocus=\"this.placeholder='Press backspace to delete note'\"\n                              onblur=\"this.placeholder=''\">" + note.content + "</textarea>\n                    <span class=\"tag-label\">Tags:</span>\n                    <input type=\"text\"\n                           class=\"tag-input\"\n                           placeholder=\"Untagged...\"\n                           onkeydown=\"updateTags(this)\"\n                           data-note-id=" + note.id + "\n                           value=\"" + note.tags.join(" ") + "\">\n                    <div class=\"share-btn-container\">\n                        <span class=\"btn glyphicon glyphicon-share-alt share-btn\"\n                              onclick=\"shareModal(this.dataset['noteId'])\"\n                              data-note-id=" + note.id + "></span>\n                    </div>\n                </div>\n            </div>\n        </div>\n    ";
+    var sharedByTemplate = "<span class=\"shared-by-label\">Shared by " + note.owner + "</span>";
+    var sharedBy = owned ? "" : sharedByTemplate;
+    var template = "\n        <div class=\"row\">\n            <div class=\"col-md-10 col-md-offset-1\">\n                <div class=\"panel note-panel " + sharedClass + " panel-default\">\n                    <textarea class=\"note-input\"\n                              onkeydown=\"checkDelete(event, this)\"\n                              onkeyup=\"updateNote(this)\"\n                              data-note-id=" + note.id + "\n                              onfocus=\"this.placeholder='Press backspace to delete note'\"\n                              onblur=\"this.placeholder=''\">" + note.content + "</textarea>\n                    <span class=\"tag-label\">Tags:</span>\n                    <input type=\"text\"\n                           class=\"tag-input\"\n                           placeholder=\"Untagged...\"\n                           onkeydown=\"updateTags(this)\"\n                           data-note-id=" + note.id + "\n                           value=\"" + note.tags.join(" ") + "\">\n                    " + sharedBy + "\n                    <div class=\"share-btn-container\">\n                        <span class=\"btn glyphicon glyphicon-share-alt share-btn\"\n                              onclick=\"shareModal(this.dataset['noteId'])\"\n                              data-note-id=" + note.id + "></span>\n                        <span class=\"btn glyphicon glyphicon-cloud-download share-btn\"\n                              onclick=\"download(this.dataset['noteId'])\"\n                              data-note-id=" + note.id + "></span>\n                    </div>\n                </div>\n            </div>\n        </div>\n    ";
     $("#notes-container").append($.parseHTML(template));
 }
 function newNote(obj) {
@@ -39,11 +41,20 @@ function setCurrentUser(email) {
 function shareModal(id) {
     $(".share-panel-blackout").show();
     $("#share-input").val("");
+    $("#share-text-btn").html("Share");
     $("#share-text-btn").data("note-id", id + "");
 }
 function shareNote(btn) {
     var email = $("#share-input").val();
-    $.post("/note/" + idFromElement(btn) + "/share", { email: email }, function (resp) { return console.log(resp); });
+    $.post("/note/" + idFromElement(btn) + "/share", { email: email }, function (resp) {
+        console.log(resp);
+        if (resp.error) {
+        }
+        else {
+            $(".share-panel-blackout").fadeOut(1000);
+            $("#share-text-btn").html("Success!");
+        }
+    });
 }
 var lastSearch = 0;
 function search(query) {
@@ -61,20 +72,59 @@ function search(query) {
         }
     });
 }
+function downloadText(filename, text) {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+}
+function generateCSV(noteId) {
+    return $.makeArray(document.getElementsByClassName("note-input"))
+        .filter(function (node) { return node.dataset.noteId == noteId || noteId == "all"; })
+        .map(function (elem) {
+        var tags = elem.nextSibling.nextSibling.nextSibling.nextSibling.value;
+        return [elem.value, tags].join(",");
+    }).join("\n");
+}
+function download(noteId) {
+    downloadText("notes.csv", generateCSV(noteId));
+}
 $("#new-note-btn").on("click", function () {
     $.getJSON("/note/create", function (resp) { return addNote(newNote(resp)); });
 });
 $("#cancel-share-btn").on("click", function () { return $(".share-panel-blackout").hide(); });
 $("#share-text-btn").on("click", function () {
     shareNote($("#share-text-btn")[0]);
-    $(".share-panel-blackout").hide();
 });
 $(".search-box").keyup(function () { return search($(".search-box").val()); });
+$("#download-btn").on("click", function () {
+    download("all");
+});
+$("#upload-btn").on("click", function () {
+    $("#upload-file").click();
+});
+$("#upload-file").on("change", function (evt) {
+    var file = evt.target.files[0];
+    var reader = new FileReader();
+    reader.onload = function () {
+        var text = reader.result;
+        text.split("\n").map(function (line) {
+            var _a = line.split(","), cont = _a[0], tags = _a[1];
+            $.getJSON("/note/create", function (resp) {
+                var note = newNote(resp);
+                note.content = cont;
+                note.tags = tags.split(" ");
+                addNote(note);
+                updateNote($(".note-input[data-note-id=" + note.id + "]")[0]);
+                updateTags($(".tag-input[data-note-id=" + note.id + "]")[0]);
+            });
+        });
+    };
+    reader.readAsText(file);
+});
 $(document).ready(function () {
-    $.getJSON("/user", function (json) { return setCurrentUser(json.user.email); })
-        .then(function () {
-        ;
-        $.getJSON("/notes/my", function (notesObj) { return notesObj.notes.forEach(addNote); });
-        $.getJSON("/notes/other", function (notesObj) { return notesObj.notes.forEach(addNote); });
-    });
+    search("");
 });

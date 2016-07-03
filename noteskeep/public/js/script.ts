@@ -43,6 +43,8 @@ function updateTags(tagText : HTMLInputElement) : void {
 function addNote(note : Note) : void {
     const owned = note.owner == currentUser;
     const sharedClass = owned ? "" : "shared-note";
+    const sharedByTemplate = `<span class="shared-by-label">Shared by ${note.owner}</span>`;
+    const sharedBy = owned ? "" : sharedByTemplate;
     const template = `
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
@@ -60,9 +62,13 @@ function addNote(note : Note) : void {
                            onkeydown="updateTags(this)"
                            data-note-id=${note.id}
                            value="${note.tags.join(" ")}">
+                    ${sharedBy}
                     <div class="share-btn-container">
                         <span class="btn glyphicon glyphicon-share-alt share-btn"
                               onclick="shareModal(this.dataset['noteId'])"
+                              data-note-id=${note.id}></span>
+                        <span class="btn glyphicon glyphicon-cloud-download share-btn"
+                              onclick="download(this.dataset['noteId'])"
                               data-note-id=${note.id}></span>
                     </div>
                 </div>
@@ -86,12 +92,21 @@ function setCurrentUser(email : string) : void {
 function shareModal(id : number) : void {
     $(".share-panel-blackout").show();
     $("#share-input").val("");
+    $("#share-text-btn").html("Share");
     $("#share-text-btn").data("note-id", id + "");
 }
 
 function shareNote(btn : HTMLElement) {
     const email = $("#share-input").val();
-    $.post(`/note/${idFromElement(btn)}/share`, { email: email }, (resp) => console.log(resp));
+    $.post(`/note/${idFromElement(btn)}/share`, { email: email }, (resp) => {
+        console.log(resp)
+        if (resp.error) {
+
+        } else {
+            $(".share-panel-blackout").fadeOut(1000);
+            $("#share-text-btn").html("Success!");
+        }
+    });
 }
 
 var lastSearch = 0;
@@ -116,6 +131,32 @@ function search(query : string) : void {
 
 }
 
+function downloadText(filename, text) {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+}
+
+function generateCSV(noteId : number | string) : string {
+    return $.makeArray(document.getElementsByClassName("note-input"))
+            .filter(node => node.dataset.noteId == noteId || noteId == "all")
+            .map((elem : HTMLInputElement) => {
+        const tags = (<HTMLInputElement>elem.nextSibling.nextSibling.nextSibling.nextSibling).value;
+        return [elem.value, tags].join(",");
+    }).join("\n");
+}
+
+function download(noteId : number | string) : void {
+    downloadText("notes.csv", generateCSV(noteId));
+}
+
 $("#new-note-btn").on("click", () => {
     $.getJSON("/note/create", (resp) => addNote(newNote(resp)));
 });
@@ -124,15 +165,38 @@ $("#cancel-share-btn").on("click", () => $(".share-panel-blackout").hide());
 
 $("#share-text-btn").on("click", () => {
     shareNote($("#share-text-btn")[0]);
-    $(".share-panel-blackout").hide();
 });
 
 $(".search-box").keyup(() => search($(".search-box").val()));
 
+$("#download-btn").on("click", () => {
+    download("all");
+});
+
+$("#upload-btn").on("click", () => {
+    $("#upload-file").click();
+});
+
+$("#upload-file").on("change", (evt : Event) => {
+    const file = (<HTMLInputElement>evt.target).files[0];
+    const reader = new FileReader();
+    reader.onload = function () {
+        const text : string = reader.result;
+        text.split("\n").map(line => {
+            const [cont, tags] = line.split(",");
+            $.getJSON("/note/create", (resp) => {
+                var note = newNote(resp);
+                note.content = cont;
+                note.tags = tags.split(" ");
+                addNote(note);
+                updateNote(<HTMLTextAreaElement>$(`.note-input[data-note-id=${note.id}]`)[0]);
+                updateTags(<HTMLInputElement>$(`.tag-input[data-note-id=${note.id}]`)[0]);
+            });
+        });
+    };
+    reader.readAsText(file);
+});
+
 $(document).ready(() => {
-    $.getJSON("/user", (json) => setCurrentUser(json.user.email))
-    .then(() => {;
-        $.getJSON("/notes/my", (notesObj : { notes : Note[] }) => notesObj.notes.forEach(addNote));
-        $.getJSON("/notes/other", (notesObj : { notes : Note[] }) => notesObj.notes.forEach(addNote));
-    });
+    search("");
 });

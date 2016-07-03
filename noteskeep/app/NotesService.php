@@ -126,7 +126,10 @@ class NotesService {
             foreach ($notes as $note) {
                 $noteTags = $this->getTagsForNote($note);
                 foreach ($noteTags as $noteTag) {
-                    $pos = strpos(strtolower($noteTag->name), strtolower($tag));
+                    $pos = false;
+                    if($tag != "") {
+                        $pos = strpos(strtolower($noteTag->name), strtolower($tag));
+                    }
                     if($pos === false) {
                         continue;
                     }
@@ -166,5 +169,16 @@ class NotesService {
             return false;
         }
         return true;
+    }
+
+    public function getNewOtherNotes($lastAccess) {
+        $notes = Auth::user()->note;
+        $newNotes = array();
+        foreach ($notes as $note) {
+            if($note->owner != Auth::user()->email && $note->updated_at > $lastAccess) {
+                $newNotes[] = $note;
+            }
+        }
+        return $newNotes;
     }
 }

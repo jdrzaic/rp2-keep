@@ -15,14 +15,14 @@
         </div>
     </div>
 </div>
-<!-- test, to be removed
+<!-- test, to be removed -->
 <form class="form-horizontal" role="form" method="POST" action="{{ url('/note/6/edit') }}">
         First name:<br>
-        <input type="text" name="ggg" value=""><br>
+        <input type="text" name="content" value=""><br>
         Last name:<br>
         <input type="text" name="tags" value="Mouse"><br><br>
     <button type="submit" class="btn btn-primary">
         <i class="fa fa-btn fa-sign-in"></i> editiraj
     </button>
-</form> -->
+</form>
 @endsection

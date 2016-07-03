@@ -38,6 +38,7 @@ class NotesService {
         $note = Note::find($id);
         $note->content = $content;
         $note->save();
+        $note->tag()->detach();
         if(sizeof($tags) == 0) {
             return $note;
         }

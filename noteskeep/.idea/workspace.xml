@@ -22,21 +22,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="auth.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/config/auth.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="NoteController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/NoteController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="495">
-              <caret line="90" column="43" selection-start-line="90" selection-start-column="43" selection-end-line="90" selection-end-column="43" />
+            <state relative-caret-position="270">
+              <caret line="90" column="37" selection-start-line="90" selection-start-column="37" selection-end-line="90" selection-end-column="37" />
               <folding>
                 <element signature="e#40#61#0#PHP" expanded="true" />
               </folding>
@@ -44,18 +34,30 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="welcome.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/views/welcome.blade.php">
+      <file leaf-file-name="NotesService.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/NotesService.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="283">
+              <caret line="40" column="31" selection-start-line="40" selection-start-column="31" selection-end-line="40" selection-end-column="31" />
+              <folding>
+                <element signature="e#110#146#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Util.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Util.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="285">
+              <caret line="24" column="45" selection-start-line="24" selection-start-column="45" selection-end-line="24" selection-end-column="45" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="filesystems.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/config/filesystems.php">
+      <file leaf-file-name="welcome.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/welcome.blade.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -114,11 +116,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="home.blade.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="home.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/home.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="26" column="11" selection-start-line="26" selection-start-column="11" selection-end-line="26" selection-end-column="11" />
+            <state relative-caret-position="300">
+              <caret line="20" column="40" selection-start-line="20" selection-start-column="40" selection-end-line="20" selection-end-column="40" />
               <folding />
             </state>
           </provider>
@@ -167,13 +169,13 @@
         <option value="$PROJECT_DIR$/app/Note.php" />
         <option value="$PROJECT_DIR$/database/migrations/2016_06_27_202603_create_notes_table.php" />
         <option value="$PROJECT_DIR$/app/Util.php" />
-        <option value="$PROJECT_DIR$/app/NotesService.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/NotesController.php" />
         <option value="$PROJECT_DIR$/app/Http/routes.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/SocialAuthController.php" />
         <option value="$PROJECT_DIR$/config/database.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/NoteController.php" />
         <option value="$PROJECT_DIR$/resources/views/home.blade.php" />
+        <option value="$PROJECT_DIR$/app/NotesService.php" />
       </list>
     </option>
   </component>
@@ -429,12 +431,12 @@
       <workItem from="1467310503885" duration="422000" />
       <workItem from="1467310964479" duration="65000" />
       <workItem from="1467447698053" duration="2092000" />
-      <workItem from="1467541281179" duration="855000" />
+      <workItem from="1467541281179" duration="1517000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="47557000" />
+    <option name="totallyTimeSpent" value="48219000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="815" extended-state="6" />
@@ -715,14 +717,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Util.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="16" column="18" selection-start-line="16" selection-start-column="18" selection-end-line="16" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/NotesController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="375">
@@ -734,16 +728,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
           <caret line="25" column="5" selection-start-line="25" selection-start-column="5" selection-end-line="25" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/NotesService.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1035">
-          <caret line="75" column="31" selection-start-line="75" selection-start-column="31" selection-end-line="75" selection-end-column="31" />
-          <folding>
-            <element signature="e#110#146#0#PHP" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -836,21 +820,39 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/home.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" column="40" selection-start-line="20" selection-start-column="40" selection-end-line="20" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Util.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="24" column="45" selection-start-line="24" selection-start-column="45" selection-end-line="24" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/NoteController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="90" column="43" selection-start-line="90" selection-start-column="43" selection-end-line="90" selection-end-column="43" />
+        <state relative-caret-position="270">
+          <caret line="90" column="37" selection-start-line="90" selection-start-column="37" selection-end-line="90" selection-end-column="37" />
           <folding>
             <element signature="e#40#61#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/home.blade.php">
+    <entry file="file://$PROJECT_DIR$/app/NotesService.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="26" column="11" selection-start-line="26" selection-start-column="11" selection-end-line="26" selection-end-column="11" />
-          <folding />
+        <state relative-caret-position="283">
+          <caret line="40" column="31" selection-start-line="40" selection-start-column="31" selection-end-line="40" selection-end-column="31" />
+          <folding>
+            <element signature="e#110#146#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

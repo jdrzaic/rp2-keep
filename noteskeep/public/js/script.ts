@@ -102,8 +102,8 @@ function shareNote(btn : HTMLElement) {
     $.post(`/note/${idFromElement(btn)}/share`, { email: email }, (resp) => {
         console.log(resp)
         if (resp.error) {
-
-        } else {
+        }
+        else {
             $(".share-panel-blackout").fadeOut(1000);
             $("#share-text-btn").html("Success!");
         }

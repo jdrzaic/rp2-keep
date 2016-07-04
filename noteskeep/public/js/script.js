@@ -96,6 +96,7 @@ function generateCSV(noteId) {
 function download(noteId) {
     downloadText("notes.csv", generateCSV(noteId));
 }
+
 function reportShare() {
     lastAccessTime = typeof lastAccessTime !== 'undefined' ? lastAccessTime : "2000-02-02 00:00:00";
     $.ajax(
@@ -123,20 +124,6 @@ function reportShare() {
             complete: function( xhr, status ) {}
         }
     );
-}
-
-function generate(type, theme, text, layout) {
-    var n = noty({
-        text        : text,
-        type        : type,
-        dismissQueue: true,
-        layout      : layout,
-        theme       : theme,
-        closeWith   : ['button', 'click'],
-        maxVisible  : 20,
-        timeout     : 1500,
-        modal       : true
-    });
 }
 
 $("#new-note-btn").on("click", function () {

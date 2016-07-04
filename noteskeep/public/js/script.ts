@@ -9,6 +9,8 @@ type User = { email: string,
               name: string };
 
 var currentUser;
+var lastAccessTime;
+var generate;
 
 function idFromElement(elem : HTMLElement) : number {
     return Number($(elem).data("noteId"));
@@ -102,10 +104,11 @@ function shareNote(btn : HTMLElement) {
     $.post(`/note/${idFromElement(btn)}/share`, { email: email }, (resp) => {
         console.log(resp)
         if (resp.error) {
+            generate('warning', 'someOtherTheme', 'Unable to share note, recheck the entered email', 'bottomCenter')
         }
         else {
+            generate('success', 'someOtherTheme', 'Note successfully shared', 'bottomCenter')
             $(".share-panel-blackout").fadeOut(1000);
-            $("#share-text-btn").html("Success!");
         }
     });
 }
@@ -158,6 +161,39 @@ function download(noteId : number | string) : void {
     downloadText("notes.csv", generateCSV(noteId));
 }
 
+function reportShare() {
+    lastAccessTime = typeof lastAccessTime !== 'undefined' ? lastAccessTime : "2000-02-02 00:00:00";
+    $.ajax(
+        {
+            url: "/report",
+            data:
+            {
+                last_access_time: lastAccessTime,
+            },
+            type: "GET",
+            dataType: "json", // očekivani povratni tip podatka
+            success: function( json ) {
+                console.log(json);
+                if(json.last_access_time) {
+                    if(lastAccessTime !== "2000-02-02 00:00:00") {
+                        search("");
+                        generate('information', 'someOtherTheme', 'there are new notes shared with you', 'topRight', 2000);
+                    }
+                    lastAccessTime = json.last_access_time;
+                }
+                setTimeout(reportShare, 5000);
+            },
+            error: function( xhr, status, errorThrown ) {
+                setTimeout(reportShare, 7000);
+                generate('warning', 'someOtherTheme', 'no connection', 'topRight', 7000);
+            },
+            complete: function( xhr, status ) {
+            }
+        }
+    );
+}
+
+
 $("#new-note-btn").on("click", () => {
     $.getJSON("/note/create", (resp) => addNote(newNote(resp)));
 });
@@ -200,4 +236,5 @@ $("#upload-file").on("change", (evt : Event) => {
 
 $(document).ready(() => {
     search("");
+    setTimeout(reportShare, 5000);
 });

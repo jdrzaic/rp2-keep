@@ -1,7 +1,6 @@
 var currentUser;
-
 var lastAccessTime;
-
+var generate;
 function idFromElement(elem) {
     return Number($(elem).data("noteId"));
 }
@@ -52,10 +51,10 @@ function shareNote(btn) {
     $.post("/note/" + idFromElement(btn) + "/share", { email: email }, function (resp) {
         console.log(resp);
         if (resp.error) {
-            generate('warning', 'someOtherTheme', 'Unable to share note, recheck the entered email', 'bottomCenter')
+            generate('warning', 'someOtherTheme', 'Unable to share note, recheck the entered email', 'bottomCenter');
         }
         else {
-            generate('success', 'someOtherTheme', 'Note successfully shared', 'bottomCenter')
+            generate('success', 'someOtherTheme', 'Note successfully shared', 'bottomCenter');
             $(".share-panel-blackout").fadeOut(1000);
         }
     });
@@ -96,39 +95,34 @@ function generateCSV(noteId) {
 function download(noteId) {
     downloadText("notes.csv", generateCSV(noteId));
 }
-
 function reportShare() {
     lastAccessTime = typeof lastAccessTime !== 'undefined' ? lastAccessTime : "2000-02-02 00:00:00";
-    $.ajax(
-        {
-            url: "/report",
-            data:
-            {
-                last_access_time: lastAccessTime,
-            },
-            type: "GET",
-            dataType: "json", // očekivani povratni tip podatka
-            success: function( json ) {
-                console.log(json);
-                if(json.last_access_time) {
-                    if(lastAccessTime !== "2000-02-02 00:00:00") {
-                        search("");
-                        generate('information', 'someOtherTheme', 'there are new notes shared with you', 'topRight', 2000);
-                    }
-                    lastAccessTime = json.last_access_time;
+    $.ajax({
+        url: "/report",
+        data: {
+            last_access_time: lastAccessTime,
+        },
+        type: "GET",
+        dataType: "json",
+        success: function (json) {
+            console.log(json);
+            if (json.last_access_time) {
+                if (lastAccessTime !== "2000-02-02 00:00:00") {
+                    search("");
+                    generate('information', 'someOtherTheme', 'there are new notes shared with you', 'topRight', 2000);
                 }
-                setTimeout(reportShare, 5000);
-            },
-            error: function( xhr, status, errorThrown ) {
-                setTimout(reportShare, 7000);
-                generate('warning', 'someOtherTheme', 'no connection', 'topRight', 7000);
-            },
-            complete: function( xhr, status ) {
+                lastAccessTime = json.last_access_time;
             }
+            setTimeout(reportShare, 5000);
+        },
+        error: function (xhr, status, errorThrown) {
+            setTimeout(reportShare, 7000);
+            generate('warning', 'someOtherTheme', 'no connection', 'topRight', 7000);
+        },
+        complete: function (xhr, status) {
         }
-    );
+    });
 }
-
 $("#new-note-btn").on("click", function () {
     $.getJSON("/note/create", function (resp) { return addNote(newNote(resp)); });
 });

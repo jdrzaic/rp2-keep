@@ -10,8 +10,6 @@ type User = { email: string,
 
 var currentUser;
 
-var lastAccessTime;
-
 function idFromElement(elem : HTMLElement) : number {
     return Number($(elem).data("noteId"));
 }
@@ -158,49 +156,6 @@ function generateCSV(noteId : number | string) : string {
 
 function download(noteId : number | string) : void {
     downloadText("notes.csv", generateCSV(noteId));
-}
-
-function reportShare() {
-    lastAccessTime = typeof lastAccessTime !== 'undefined' ? lastAccessTime : "2000-02-02 00:00:00";
-    $.ajax(
-        {
-            url: "/report",
-            data:
-            {
-                last_access_time: lastAccessTime,
-                age: 21
-            },
-            async: true,
-            type: "GET",
-            dataType: "json", // očekivani povratni tip podatka
-            success: function( json ) {
-                console.log(json);
-                if(json.last_access_time) {
-                    if(lastAccessTime !== "2000-02-02 00:00:00") {
-                        generate('information', 'someOtherTheme', 'there are new notes shared with you', 'topRight');
-                        search("");
-                    }
-                    lastAccessTime = json.last_access_time;
-                }
-            },
-            error: function( xhr, status, errorThrown ) {},
-            complete: function( xhr, status ) {}
-        }
-    );
-}
-
-function generate(type, theme, text, layout) {
-    var n = noty({
-        text        : text,
-        type        : type,
-        dismissQueue: true,
-        layout      : layout,
-        theme       : theme,
-        closeWith   : ['button', 'click'],
-        maxVisible  : 20,
-        timeout     : 1500,
-        modal       : true
-    });
 }
 
 $("#new-note-btn").on("click", () => {

@@ -105,23 +105,26 @@ function reportShare() {
             data:
             {
                 last_access_time: lastAccessTime,
-                age: 21
             },
-            async: true,
             type: "GET",
             dataType: "json", // očekivani povratni tip podatka
             success: function( json ) {
                 console.log(json);
                 if(json.last_access_time) {
                     if(lastAccessTime !== "2000-02-02 00:00:00") {
-                        generate('information', 'someOtherTheme', 'there are new notes shared with you', 'topRight');
                         search("");
+                        generate('information', 'someOtherTheme', 'there are new notes shared with you', 'topRight', 2000);
                     }
                     lastAccessTime = json.last_access_time;
                 }
+                setTimeout(reportShare, 5000);
             },
-            error: function( xhr, status, errorThrown ) {},
-            complete: function( xhr, status ) {}
+            error: function( xhr, status, errorThrown ) {
+                setTimeout(reportShare, 7000);
+                generate('warning', 'someOtherTheme', 'no connection', 'topRight', 7000);
+            },
+            complete: function( xhr, status ) {
+            }
         }
     );
 }
@@ -161,5 +164,5 @@ $("#upload-file").on("change", function (evt) {
 });
 $(document).ready(function () {
     search("");
-    setInterval(reportShare, 5000);
+    setTimeout(reportShare, 5000);
 });

@@ -120,10 +120,8 @@ function reportShare() {
                 setTimeout(reportShare, 5000);
             },
             error: function( xhr, status, errorThrown ) {
-                if(status != 401) { //authorized
-                    setTimout(reportShare, 7000);
-                    generate('warning', 'someOtherTheme', 'no connection', 'topRight', 7000);
-                }
+                setTimout(reportShare, 7000);
+                generate('warning', 'someOtherTheme', 'no connection', 'topRight', 7000);
             },
             complete: function( xhr, status ) {
             }

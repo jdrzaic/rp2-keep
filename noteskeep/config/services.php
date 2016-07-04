@@ -42,13 +42,13 @@ return [
     'facebook' => [
         'client_id' => '1174807592563257',
         'client_secret' => '579fcee90375dda642716996bb531c34',
-        'redirect' => 'http://localhost:8000/callback/facebook',
+        'redirect' => 'http://lukahorvat.rocks/callback/facebook',
     ],
 
     'google' => [
         'client_id' => '620481928896-bcvq4ie8vc50kge7idqtite6969rrjga.apps.googleusercontent.com',
         'client_secret' => 'YzYT6tvUfrt2wIjSshxhIFrb',
-        'redirect' => 'http://localhost:8000/callback/google',
+        'redirect' => 'http://lukahorvat.rocks/callback/google',
     ],
 
 ];

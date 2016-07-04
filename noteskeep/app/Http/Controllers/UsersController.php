@@ -29,9 +29,6 @@ class UsersController extends Controller
 
     public function index() {
         $user = Auth::user();
-        if($user == null) {
-            return json_encode(array("user" => null));
-        }
         return json_encode(array("user" => $user));
     }
 }

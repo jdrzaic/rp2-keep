@@ -116,8 +116,10 @@ function reportShare() {
             setTimeout(reportShare, 5000);
         },
         error: function (xhr, status, errorThrown) {
-            setTimeout(reportShare, 7000);
-            generate('warning', 'someOtherTheme', 'no connection', 'topRight', 7000);
+            if (status != "401") {
+                setTimeout(reportShare, 7000);
+                generate('warning', 'someOtherTheme', 'no connection', 'topRight', 7000);
+            }
         },
         complete: function (xhr, status) {
         }

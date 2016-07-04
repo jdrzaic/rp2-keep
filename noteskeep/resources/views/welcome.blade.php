@@ -40,3 +40,9 @@
 <div class="container" id="notes-container">
 </div>
 @endsection
+
+@section('scripts')
+<script type="text/javascript" src="/js/script.js"></script>
+<script type="text/javascript" src="/js/notifications.js"></script>
+<script type="text/javascript" src="js/noty/packaged/jquery.noty.packaged.min.js"></script>
+@endsection

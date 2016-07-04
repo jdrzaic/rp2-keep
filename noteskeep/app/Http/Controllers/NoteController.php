@@ -61,10 +61,13 @@ class NoteController extends Controller
             return json_encode(array('error' => 'permission denied(note is not created by or shared with you'));
         }
         if($request->has('email') == false) {
-            return json_encode(array('error' => 'parameter "email" missing'));
+            return response()->json(["error" => 'parameter "email" missing']);
         }
         $email = $request->input('email');
         $note = $notesService->shareNote($id, $email);
+        if($note == false) {
+            return response()->json(["error" => "no user"]);
+        }
         return json_encode(Util::getNotesResponse($note));
     }
 

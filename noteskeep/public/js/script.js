@@ -1,4 +1,7 @@
 var currentUser;
+
+var lastAccessTime;
+
 function idFromElement(elem) {
     return Number($(elem).data("noteId"));
 }
@@ -49,10 +52,11 @@ function shareNote(btn) {
     $.post("/note/" + idFromElement(btn) + "/share", { email: email }, function (resp) {
         console.log(resp);
         if (resp.error) {
+            generate('warning', 'someOtherTheme', 'Unable to share note, recheck the entered email', 'bottomCenter')
         }
         else {
+            generate('success', 'someOtherTheme', 'Note successfully shared', 'bottomCenter')
             $(".share-panel-blackout").fadeOut(1000);
-            $("#share-text-btn").html("Success!");
         }
     });
 }
@@ -92,6 +96,49 @@ function generateCSV(noteId) {
 function download(noteId) {
     downloadText("notes.csv", generateCSV(noteId));
 }
+function reportShare() {
+    lastAccessTime = typeof lastAccessTime !== 'undefined' ? lastAccessTime : "2000-02-02 00:00:00";
+    $.ajax(
+        {
+            url: "/report",
+            data:
+            {
+                last_access_time: lastAccessTime,
+                age: 21
+            },
+            async: true,
+            type: "GET",
+            dataType: "json", // očekivani povratni tip podatka
+            success: function( json ) {
+                console.log(json);
+                if(json.last_access_time) {
+                    if(lastAccessTime !== "2000-02-02 00:00:00") {
+                        generate('information', 'someOtherTheme', 'there are new notes shared with you', 'topRight');
+                        search("");
+                    }
+                    lastAccessTime = json.last_access_time;
+                }
+            },
+            error: function( xhr, status, errorThrown ) {},
+            complete: function( xhr, status ) {}
+        }
+    );
+}
+
+function generate(type, theme, text, layout) {
+    var n = noty({
+        text        : text,
+        type        : type,
+        dismissQueue: true,
+        layout      : layout,
+        theme       : theme,
+        closeWith   : ['button', 'click'],
+        maxVisible  : 20,
+        timeout     : 1500,
+        modal       : true
+    });
+}
+
 $("#new-note-btn").on("click", function () {
     $.getJSON("/note/create", function (resp) { return addNote(newNote(resp)); });
 });
@@ -127,4 +174,5 @@ $("#upload-file").on("change", function (evt) {
 });
 $(document).ready(function () {
     search("");
+    setInterval(reportShare, 5000);
 });

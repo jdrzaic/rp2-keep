@@ -62,7 +62,7 @@ class NotesService {
         $note = Note::find($id);
         $user = DB::table('users')->where('email', $email)->first();
         if($user == null) {
-            return $note;
+            return false;
         }
         $attached = DB::table('note_user')->where('note_id', $id)->where('user_id', $user->id)->first();
         if($attached != null) {

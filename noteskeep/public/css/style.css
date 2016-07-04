@@ -137,3 +137,37 @@ body {
     text-align: center;
     background-color: lightgoldenrodyellow;
 }
+
+.someOtherTheme {
+    overflow: hidden;
+    box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.someOtherTheme.noty_container_type_alert {
+    background-color: #f5f5f5;
+}
+
+.someOtherTheme.noty_container_type_information {
+    background-color: #bbe1e8;
+}
+
+.someOtherTheme.noty_container_type_error {
+    background-color: #eaadad;
+    color: #fff;
+    font-weight: bold
+}
+
+.someOtherTheme.noty_container_type_warning {
+    background-color: lightsalmon;
+    color: #fff;
+}
+
+.someOtherTheme.noty_container_type_success {
+    background-color: lightgreen;
+    color: #fff;
+}
+
+.someOtherTheme .noty_message {
+    padding: 10px 20px;
+}

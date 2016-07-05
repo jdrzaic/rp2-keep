@@ -11,6 +11,7 @@ type User = { email: string,
 var currentUser;
 var lastAccessTime;
 var generate;
+var generateSimple;
 
 function idFromElement(elem : HTMLElement) : number {
     return Number($(elem).data("noteId"));
@@ -163,36 +164,35 @@ function download(noteId : number | string) : void {
 
 function reportShare() {
     lastAccessTime = typeof lastAccessTime !== 'undefined' ? lastAccessTime : "2000-02-02 00:00:00";
-    $.ajax(
-        {
-            url: "/report",
-            data:
-            {
-                last_access_time: lastAccessTime,
-            },
-            type: "GET",
-            dataType: "json", // očekivani povratni tip podatka
-            success: function( json ) {
-                console.log(json);
-                if(json.last_access_time) {
-                    if(lastAccessTime !== "2000-02-02 00:00:00") {
-                        search("");
-                        generate('information', 'someOtherTheme', 'there are new notes shared with you', 'topRight', 2000);
-                    }
-                    lastAccessTime = json.last_access_time;
+    $.ajax({
+        url: "/report",
+        data: {
+            last_access_time: lastAccessTime,
+        },
+        type: "GET",
+        dataType: "json",
+        success: function (json) {
+            console.log(json);
+            if (json.last_access_time) {
+                if (lastAccessTime !== "2000-02-02 00:00:00") {
+                    /** provjeri kolko ima sad noteova korisnik */
+                    search("");
+                    /*ak se broj promijenil, generiral notification*/
+                    generateSimple('information', 'someOtherTheme', 'there are new notes shared with you', 'topRight');
                 }
-                setTimeout(reportShare, 5000);
-            },
-            error: function( xhr, status, errorThrown ) {
-                if (status != "401") {
-                    setTimeout(reportShare, 7000);
-                    generate('warning', 'someOtherTheme', 'no connection', 'topRight', 7000);
-                }
-            },
-            complete: function( xhr, status ) {
+                lastAccessTime = json.last_access_time;
             }
+            setTimeout(reportShare, 5000);
+        },
+        error: function (xhr, status, errorThrown) {
+            if (status != "401") {
+                setTimeout(reportShare, 7000);
+                generate('warning', 'someOtherTheme', 'no connection', 'topRight', 7000);
+            }
+        },
+        complete: function (xhr, status) {
         }
-    );
+    });
 }
 
 

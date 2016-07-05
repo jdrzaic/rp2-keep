@@ -114,9 +114,6 @@ function reportShare() {
                         if (n > numNotes) {
                             generateSimple('information', 'someOtherTheme', 'there are new notes shared with you', 'topRight');
                         }
-                        else if (n < numNotes) {
-                            generateSimple('information', 'someOtherTheme', 'some shared notes have been deleted', 'topRight');
-                        }
                     });
                     search("");
                 }

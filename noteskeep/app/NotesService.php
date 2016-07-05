@@ -258,7 +258,7 @@ class NotesService {
         $notes = Auth::user()->note;
         $newNotes = array();
         foreach ($notes as $note) {
-            if($note->owner != Auth::user()->email && $note->updated_at > $lastAccess) {
+            if($note->owner != Auth::user()->email && $note->created_at > $lastAccess) {
                 $newNotes[] = $note;
             }
         }

@@ -117,8 +117,8 @@ function reportShare() {
                     });
                     search("");
                 }
-                lastAccessTime = json.last_access_time;
             }
+            lastAccessTime = json.last_access_time;
             setTimeout(reportShare, 5000);
         },
         error: function (xhr, status, errorThrown) {

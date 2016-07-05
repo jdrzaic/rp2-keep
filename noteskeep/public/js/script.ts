@@ -115,7 +115,8 @@ function shareNote(btn : HTMLElement) {
 }
 
 var lastSearch = 0;
-function search(query : string) : void {
+var numNotes = 0;
+function search(query : string, callback? : ((numNotes : number) => void)) : void {
     var thisSearch = ++lastSearch;
     var allNotes : Note[] = [];
     $.when(
@@ -132,6 +133,8 @@ function search(query : string) : void {
             $("#notes-container").empty();
             allNotes.forEach(addNote);
         }
+        if (callback) callback(allNotes.length);
+        numNotes = allNotes.length;
     });
 
 }
@@ -175,10 +178,14 @@ function reportShare() {
             console.log(json);
             if (json.last_access_time) {
                 if (lastAccessTime !== "2000-02-02 00:00:00") {
-                    /** provjeri kolko ima sad noteova korisnik */
-                    search("");
-                    /*ak se broj promijenil, generiral notification*/
-                    generateSimple('information', 'someOtherTheme', 'there are new notes shared with you', 'topRight');
+                    search("", (n) => {
+                        console.log(n, numNotes);
+                        if (n > numNotes) {
+                            generateSimple('information', 'someOtherTheme', 'there are new notes shared with you', 'topRight');
+                        } else if (n < numNotes) {
+                            generateSimple('information', 'someOtherTheme', 'some shared notes have been deleted', 'topRight');
+                        }
+                    });
                 }
                 lastAccessTime = json.last_access_time;
             }

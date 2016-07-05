@@ -61,7 +61,8 @@ function shareNote(btn) {
     });
 }
 var lastSearch = 0;
-function search(query) {
+var numNotes = 0;
+function search(query, callback) {
     var thisSearch = ++lastSearch;
     var allNotes = [];
     $.when($.getJSON("/notes/my", { query: query }, function (notesObj) {
@@ -74,6 +75,9 @@ function search(query) {
             $("#notes-container").empty();
             allNotes.forEach(addNote);
         }
+        if (callback)
+            callback(allNotes.length);
+        numNotes = allNotes.length;
     });
 }
 function downloadText(filename, text) {
@@ -109,8 +113,15 @@ function reportShare() {
             console.log(json);
             if (json.last_access_time) {
                 if (lastAccessTime !== "2000-02-02 00:00:00") {
-                    search("");
-                    generateSimple('information', 'someOtherTheme', 'there are new notes shared with you', 'topRight');
+                    search("", function (n) {
+                        console.log(n, numNotes);
+                        if (n > numNotes) {
+                            generateSimple('information', 'someOtherTheme', 'there are new notes shared with you', 'topRight');
+                        }
+                        else if (n < numNotes) {
+                            generateSimple('information', 'someOtherTheme', 'some shared notes have been deleted', 'topRight');
+                        }
+                    });
                 }
                 lastAccessTime = json.last_access_time;
             }

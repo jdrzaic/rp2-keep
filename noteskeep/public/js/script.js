@@ -37,10 +37,6 @@ function newNote(obj) {
     obj.users = [];
     return obj;
 }
-function setCurrentUser(email) {
-    $("#user-email-span").html(email);
-    currentUser = email;
-}
 function shareModal(id) {
     $(".share-panel-blackout").show();
     $("#share-input").val("");

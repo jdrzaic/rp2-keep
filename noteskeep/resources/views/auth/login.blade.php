@@ -56,7 +56,6 @@
                                 <a class="btn btn-primary" href="redirect/facebook">FB Login</a>
                                 <a class="btn btn-primary" href="{{ url('/register') }}">Register</a>
                                 <br>
-                                <a class="btn btn-link" href="{{ url('/password/reset') }}">Forgot Your Password?</a>
                             </div>
                         </div>
                     </form>

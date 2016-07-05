@@ -88,7 +88,7 @@ class NotesController extends Controller
         $newNotes = $notesService->getNewOtherNotes($lastAccess);
         $changedNotes = $notesService->getUpdatedOtherNotes($lastAccess);
         if(count($newNotes) + count($changedNotes) > 0) {
-            return response()->json(["last_access_time" => date("Y-m-d H:i:s"), "new" => "false"]);
+            return response()->json(["last_access_time" => date("Y-m-d H:i:s")]);
         }
         return response()->json(["status" => "no change"]);
     }

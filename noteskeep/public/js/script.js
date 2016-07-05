@@ -109,7 +109,6 @@ function reportShare() {
             console.log(json);
             if (json.last_access_time) {
                 if (lastAccessTime !== "2000-02-02 00:00:00") {
-                    search("");
                     search("", function (n) {
                         console.log(n, numNotes);
                         if (n > numNotes) {
@@ -119,6 +118,7 @@ function reportShare() {
                             generateSimple('information', 'someOtherTheme', 'some shared notes have been deleted', 'topRight');
                         }
                     });
+                    search("");
                 }
                 lastAccessTime = json.last_access_time;
             }

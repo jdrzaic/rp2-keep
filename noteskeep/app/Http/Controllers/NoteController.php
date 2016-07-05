@@ -65,11 +65,11 @@ class NoteController extends Controller
         }
         $email = $request->input('email');
         $note = $notesService->shareNote($id, $email);
-        $note->content = $note->content + " ";
-        $note->save();
         if($note == false) {
             return response()->json(["error" => "no user"]);
         }
+        $note->content = $note->content."  ";
+        $note->save();
         return json_encode(Util::getNotesResponse($note));
     }
 

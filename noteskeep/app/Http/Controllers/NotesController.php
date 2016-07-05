@@ -75,7 +75,7 @@ class NotesController extends Controller
     }
 
     /**
-     * Method checks if there are new notes shared with a logged user
+     * Method checks if there are changes related to notes shared with a logged user
      * @param Request $request
      * @return mixed
      */
@@ -92,7 +92,12 @@ class NotesController extends Controller
         }
         return response()->json(["status" => "no change"]);
     }
-    
+
+    /**
+     * Method searches through all notes created by or shared with logged user
+     * @param Request $request
+     * @return json
+     */
     public function search(Request $request) {
         $notesService = new NotesService();
         if($request->has('query') == false) {

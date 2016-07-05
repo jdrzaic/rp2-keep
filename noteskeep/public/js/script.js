@@ -1,6 +1,7 @@
 var currentUser;
 var lastAccessTime;
 var generate;
+var generateSimple;
 function idFromElement(elem) {
     return Number($(elem).data("noteId"));
 }
@@ -109,7 +110,7 @@ function reportShare() {
             if (json.last_access_time) {
                 if (lastAccessTime !== "2000-02-02 00:00:00") {
                     search("");
-                    generate('information', 'someOtherTheme', 'there are new notes shared with you', 'topRight', 2000);
+                    generateSimple('information', 'someOtherTheme', 'there are new notes shared with you', 'topRight');
                 }
                 lastAccessTime = json.last_access_time;
             }

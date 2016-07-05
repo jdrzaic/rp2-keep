@@ -39,7 +39,7 @@ class NoteController extends Controller
     }
 
     /**
-     * Creates a new note, and returns it, json-formatted
+     * Creates a new, empty note, and returns it, json-formatted
      * @return created note
      */
     public function create() {
@@ -65,6 +65,8 @@ class NoteController extends Controller
         }
         $email = $request->input('email');
         $note = $notesService->shareNote($id, $email);
+        $note->content = $note->content + " ";
+        $note->save();
         if($note == false) {
             return response()->json(["error" => "no user"]);
         }

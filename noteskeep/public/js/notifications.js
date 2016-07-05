@@ -16,3 +16,13 @@ function generate(type, theme, text, layout, timeout) {
         modal       : true
     });
 }
+
+function generateSimple(type, theme, text, layout) {
+    var n = noty({
+        text        : text,
+        type        : type,
+        layout      : layout,
+        theme       : theme,
+        modal       : true
+    });
+}

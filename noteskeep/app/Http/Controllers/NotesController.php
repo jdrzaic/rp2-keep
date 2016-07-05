@@ -54,6 +54,11 @@ class NotesController extends Controller
         return json_encode(array('notes' => $notesResponseArray));
     }
 
+    /**
+     * Method search through notes shared with logged user
+     * @param Request $request
+     * @return mixed
+     */
     public function searchOtherNotes(Request $request) {
         $notesService = new NotesService();
         if($request->has('query') == false) {
@@ -69,6 +74,11 @@ class NotesController extends Controller
         return json_encode(array('notes' => $notesResponseArray));
     }
 
+    /**
+     * Method checks if there are new notes shared with a logged user
+     * @param Request $request
+     * @return mixed
+     */
     public function reportShare(Request $request) {
         $notesService = new NotesService();
         if($request->has('last_access_time') == false) {
@@ -76,11 +86,11 @@ class NotesController extends Controller
         }
         $lastAccess = $request->input("last_access_time");
         $newNotes = $notesService->getNewOtherNotes($lastAccess);
-        if(count($newNotes) > 0) {
-            return response()->json(["last_access_time" => date("Y-m-d H:i:s")]);
-        } else {
-            return response()->json(["status" => "no change"]);
+        $changedNotes = $notesService->getUpdatedOtherNotes($lastAccess);
+        if(count($newNotes) + count($changedNotes) > 0) {
+            return response()->json(["last_access_time" => date("Y-m-d H:i:s"), "new" => "false"]);
         }
+        return response()->json(["status" => "no change"]);
     }
     
     public function search(Request $request) {

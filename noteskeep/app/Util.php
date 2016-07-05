@@ -14,12 +14,18 @@ class Util
 
     /**
      * @param tags string, comma separated
-     * parsing comma separated values and returning as an array
+     * parsing whitespace separated values and returning them as an array
      */
     public static function parseTags($tags) {
         return preg_split('/\s+/', $tags);
     }
 
+    /**
+     * Creates response array for a given note.
+     * Includes note id, content, owner, users and tags
+     * @param $note note
+     * @return response, as an array
+     */
     public static function getNotesResponse($note) {
         $notesService = new NotesService();
         $noteTags = $notesService->getTagsForNote($note);

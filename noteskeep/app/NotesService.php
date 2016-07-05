@@ -11,9 +11,18 @@ namespace App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-
+/**
+ * Service handling communication between controllers and model,
+ * connected to Note object
+ * Class NotesService
+ * @package App
+ */
 class NotesService {
 
+    /**
+     * Method returns new note, with content="", tags = (), and owner=logged user
+     * @return Note
+     */
     public function createNote() {
         $note = new Note;
         $note->content = '';
@@ -23,6 +32,11 @@ class NotesService {
         return $note;
     }
 
+    /**
+     * Method deletes note with given id,and its relations from database
+     * @param $id note id
+     * @return bool true if delete successful, false otherwise
+     */
     public function deleteNote($id) {
         $note = Note::find($id);
         if($note == null) {
@@ -34,6 +48,13 @@ class NotesService {
         return true;
     }
 
+    /**
+     * Method handles editing of a note with given id
+     * @param $id Note id
+     * @param $content new content of a note
+     * @param $tags new tags of a note
+     * @return mixed edited note
+     */
     public function editNote($id, $content, $tags) {
         $note = Note::find($id);
         $note->content = $content;
@@ -58,6 +79,12 @@ class NotesService {
         return $note;
     }
 
+    /**
+     * Method handles sharing of a note
+     * @param $id note id
+     * @param $email email of a user to share a note with
+     * @return note, if sharing successful, false otherwise
+     */
     public function shareNote($id, $email) {
         $note = Note::find($id);
         $user = DB::table('users')->where('email', $email)->first();
@@ -73,25 +100,51 @@ class NotesService {
         return $note;
     }
 
+    /**
+     * Method returns note with given id
+     * @param $id Note id
+     * @return note
+     */
     public function getNote($id) {
         return Note::find($id);
     }
 
+    /**
+     * Method returns all notes for given user(created and shared with)
+     * @return mixed
+     */
     public function getAllNotes() {
         $notes = Auth::user()->note;
         return $notes;
     }
 
+    /**
+     * Method returns tags, as array, of a given note
+     * @param $note note te search tags for
+     * @return note tags
+     */
     public function getTagsForNote($note) {
         $noteTags = $note->tag;
         return $noteTags;
     }
 
+    /**
+     * Method returns users for a given note
+     * @param $note note
+     * @return users of a note(creator + shares)
+     */
     public function getUsersForNote($note) {
         $users = $note->user;
         return $users;
     }
 
+    /**
+     * Method returns note for given query(by content, or matching at least one of the tags)
+     * @param $query string
+     * @param string $part other if searching through shared notes, my if searching through created notes,
+     * "" otherwise
+     * @return notes that match query
+     */
     public function getNotesForQuery($query, $part = "") {
         if($part == "my" ) {
             $notes = $this->getMyNotes();
@@ -108,6 +161,12 @@ class NotesService {
         return array_unique(array_merge($notesContentMatch, $notesTagsMatch));
     }
 
+    /**
+     * Method gets notes whose content matches with given query
+     * @param $content query
+     * @param $notes notes to search through
+     * @return array matching notes
+     */
     private function getNotesByContent($content, $notes) {
         $matchingNotes = array();
         foreach ($notes as $note) {
@@ -120,6 +179,12 @@ class NotesService {
         return $matchingNotes;
     }
 
+    /**
+     * Metod gets notes thaat match query my tag
+     * @param $tags
+     * @param $notes
+     * @return array
+     */
     private function getNotesByTag($tags, $notes) {
         $matchingNotes = array();
         foreach ($tags as $tag) {
@@ -141,6 +206,10 @@ class NotesService {
         return $matchingNotes;
     }
 
+    /**
+     * Method gets all my notes
+     * @return array notes from logged user
+     */
     public function getMyNotes() {
         $notes = Auth::user()->note;
         $myNotes = array();
@@ -152,6 +221,10 @@ class NotesService {
         return $myNotes;
     }
 
+    /**
+     * Get notes shared with user
+     * @return notes shared with logged user
+     */
     public function getOtherNotes() {
         $notes = Auth::user()->note;
         $otherNotes = array();
@@ -163,6 +236,11 @@ class NotesService {
         return $otherNotes;
     }
 
+    /**
+     * Method checks if user can access a note with given id
+     * @param $id id of a note
+     * @return bool true if accessible, false otherwise
+     */
     public function isNoteAccessible($id) {
         $accessible = DB::table('note_user')->where('note_id', $id)->where('user_id', Auth::user()->id)->first();
         if($accessible == null) {
@@ -171,6 +249,11 @@ class NotesService {
         return true;
     }
 
+    /**
+     * Method returns new notes, created and shared with user after last access to the server
+     * @param $lastAccess last access to the server
+     * @return array new notes
+     */
     public function getNewOtherNotes($lastAccess) {
         $notes = Auth::user()->note;
         $newNotes = array();
@@ -182,6 +265,11 @@ class NotesService {
         return $newNotes;
     }
 
+    /**
+     * Notes shared with user and updated after last access
+     * @param $lastAccess last access to server
+     * @return array updated notes
+     */
     public function getUpdatedOtherNotes($lastAccess) {
         $notes = Auth::user()->note;
         $newNotes = array();

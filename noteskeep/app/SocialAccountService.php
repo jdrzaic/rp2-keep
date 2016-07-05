@@ -9,8 +9,20 @@
 namespace App;
 
 use Laravel\Socialite\Contracts\User as ProviderUser;
+
+/**
+ * Class handles authorization of a user, through third party services
+ * Class SocialAccountService
+ * @package App
+ */
 class SocialAccountService
 {
+    /**
+     * Method returns user associated with user authenticated through third party, or creates a new user.
+     * @param ProviderUser $providerUser user authenticated through third party
+     * @param $provider facebook/google
+     * @return authenticated user
+     */
     public function createOrGetUser(ProviderUser $providerUser, $provider)
     {
         $account = SocialAccount::whereProvider($provider)

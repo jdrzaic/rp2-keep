@@ -10,8 +10,19 @@ namespace App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Class handles communication between database and controllers,
+ * connected to users
+ * Class UsersService
+ * @package App
+ */
 class UsersService {
 
+    /**
+     * Method returns users whose emails match the given query
+     * @param $query string
+     * @return matching users
+     */
     public function getUsersByQuery($query) {
         $users = DB::table('users')->get();
         if($query == "") {

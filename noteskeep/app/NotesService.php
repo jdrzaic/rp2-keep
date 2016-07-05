@@ -277,9 +277,6 @@ class NotesService {
             if($note->owner != Auth::user()->email && $note->updated_at > $lastAccess) {
                 $newNotes[] = $note;
             }
-            if(($note->owner == Auth::user()->email && $note->updated_at > $lastAccess && $note->created_at < $lastAccess)) {
-                $newNotes[] = $note;
-            }
         }
         return $newNotes;
     }

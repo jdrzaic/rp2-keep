@@ -33,7 +33,12 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $e)
     {
-        parent::report($e);
+	if ($e instanceof \InvalidStateException) {
+        	return view('home'); 
+    	} else
+        {
+        	return parent::report($e);
+	}
     }
 
     /**

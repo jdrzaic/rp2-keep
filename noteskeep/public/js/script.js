@@ -112,19 +112,19 @@ function reportShare() {
                     search("", function (n) {
                         console.log(n, numNotes);
                         if (n > numNotes) {
-                            generateSimple('information', 'someOtherTheme', 'there are new notes shared with you', 'topRight');
+                           // generateSimple('information', 'someOtherTheme', 'there are new notes shared with you', 'topRight');
                         }
                     });
                     search("");
                 }
+		lastAccessTime = json.last_access_time;
             }
-            lastAccessTime = json.last_access_time;
             setTimeout(reportShare, 5000);
         },
         error: function (xhr, status, errorThrown) {
             if (status != "401") {
                 setTimeout(reportShare, 7000);
-                generate('warning', 'someOtherTheme', 'no connection', 'topRight', 7000);
+      
             }
         },
         complete: function (xhr, status) {

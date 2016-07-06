@@ -51,4 +51,10 @@ return [
         'redirect' => 'http://163.172.165.122/callback/google',
     ],
 
+    'github' => [
+        'client_id' => '5d4b6751371269388de2',
+        'client_secret' => 'f689954a19b160ae88459a95617d01b48e237042',
+        'redirect' => 'http://163.172.165.122/callback/github',
+    ],
+
 ];

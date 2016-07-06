@@ -54,6 +54,7 @@
                                     <i class="fa fa-btn fa-sign-in"></i> Login
                                 </button>
                                 <a class="btn btn-primary" href="redirect/facebook">FB Login</a>
+                                <a class="btn btn-primary" href="redirect/google">G+ Login</a>
                                 <a class="btn btn-primary" href="{{ url('/register') }}">Register</a>
                                 <br>
                             </div>

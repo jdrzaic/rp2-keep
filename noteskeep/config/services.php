@@ -42,19 +42,19 @@ return [
     'facebook' => [
         'client_id' => '1174807592563257',
         'client_secret' => '579fcee90375dda642716996bb531c34',
-        'redirect' => 'www.rp2keep.site/callback/facebook',
+        'redirect' => 'http://rp2keep.site/callback/facebook',
     ],
 
     'google' => [
         'client_id' => '620481928896-bcvq4ie8vc50kge7idqtite6969rrjga.apps.googleusercontent.com',
         'client_secret' => 'YzYT6tvUfrt2wIjSshxhIFrb',
-        'redirect' => 'www.rp2keep.site/callback/google',
+        'redirect' => 'http://rp2keep.site/callback/google',
     ],
 
     'github' => [
         'client_id' => '5d4b6751371269388de2',
         'client_secret' => 'f689954a19b160ae88459a95617d01b48e237042',
-        'redirect' => 'www.rp2keep.site/callback/github',
+        'redirect' => 'http://rp2keep.site/callback/github',
     ],
 
 ];

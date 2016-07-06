@@ -62,7 +62,7 @@ function addNote(note : Note) : void {
     const sharedBy = owned ? "" : sharedByTemplate;
     const template = `
         <div class="row">
-            <div class="col-md-10 col-md-offset-1">
+            <div class="col-md-12">
                 <div class="panel note-panel ${sharedClass} panel-default">
                     <textarea class="note-input"
                               onkeydown="checkDelete(event, this)"

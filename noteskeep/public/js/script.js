@@ -29,7 +29,7 @@ function addNote(note) {
     var sharedClass = owned ? "" : "shared-note";
     var sharedByTemplate = "<span class=\"shared-by-label\">Shared by " + note.owner + "</span>";
     var sharedBy = owned ? "" : sharedByTemplate;
-    var template = "\n        <div class=\"row\">\n            <div class=\"col-md-10 col-md-offset-1\">\n                <div class=\"panel note-panel " + sharedClass + " panel-default\">\n                    <textarea class=\"note-input\"\n                              onkeydown=\"checkDelete(event, this)\"\n                              onkeyup=\"updateNote(this)\"\n                              data-note-id=" + note.id + "\n                              onfocus=\"this.placeholder='Press backspace to delete note'\"\n                              onblur=\"this.placeholder=''\">" + note.content + "</textarea>\n                    <span class=\"tag-label\">Tags:</span>\n                    <input type=\"text\"\n                           class=\"tag-input\"\n                           placeholder=\"Untagged...\"\n                           onkeydown=\"updateTags(this)\"\n                           data-note-id=" + note.id + "\n                           value=\"" + note.tags.join(" ") + "\">\n                    " + sharedBy + "\n                    <div class=\"share-btn-container\">\n                        <span class=\"btn glyphicon glyphicon-share-alt share-btn\"\n                              onclick=\"shareModal(this.dataset['noteId'])\"\n                              data-note-id=" + note.id + "></span>\n                        <span class=\"btn glyphicon glyphicon-cloud-download share-btn\"\n                              onclick=\"download(this.dataset['noteId'])\"\n                              data-note-id=" + note.id + "></span>\n                    </div>\n                </div>\n            </div>\n        </div>\n    ";
+    var template = "\n        <div class=\"row\">\n            <div class=\"col-md-12\">\n                <div class=\"panel note-panel " + sharedClass + " panel-default\">\n                    <textarea class=\"note-input\"\n                              onkeydown=\"checkDelete(event, this)\"\n                              onkeyup=\"updateNote(this)\"\n                              data-note-id=" + note.id + "\n                              onfocus=\"this.placeholder='Press backspace to delete note'\"\n                              onblur=\"this.placeholder=''\">" + note.content + "</textarea>\n                    <span class=\"tag-label\">Tags:</span>\n                    <input type=\"text\"\n                           class=\"tag-input\"\n                           placeholder=\"Untagged...\"\n                           onkeydown=\"updateTags(this)\"\n                           data-note-id=" + note.id + "\n                           value=\"" + note.tags.join(" ") + "\">\n                    " + sharedBy + "\n                    <div class=\"share-btn-container\">\n                        <span class=\"btn glyphicon glyphicon-share-alt share-btn\"\n                              onclick=\"shareModal(this.dataset['noteId'])\"\n                              data-note-id=" + note.id + "></span>\n                        <span class=\"btn glyphicon glyphicon-cloud-download share-btn\"\n                              onclick=\"download(this.dataset['noteId'])\"\n                              data-note-id=" + note.id + "></span>\n                    </div>\n                </div>\n            </div>\n        </div>\n    ";
     $("#notes-container").append($.parseHTML(template));
 }
 function newNote(obj) {
@@ -112,19 +112,21 @@ function reportShare() {
                     search("", function (n) {
                         console.log(n, numNotes);
                         if (n > numNotes) {
-                           // generateSimple('information', 'someOtherTheme', 'there are new notes shared with you', 'topRight');
+                            generateSimple('information', 'someOtherTheme', 'there are new notes shared with you', 'topRight');
+                        }
+                        else if (n < numNotes) {
+                            generateSimple('information', 'someOtherTheme', 'some shared notes have been deleted', 'topRight');
                         }
                     });
-                    search("");
                 }
-		lastAccessTime = json.last_access_time;
+                lastAccessTime = json.last_access_time;
             }
             setTimeout(reportShare, 5000);
         },
         error: function (xhr, status, errorThrown) {
             if (status != "401") {
                 setTimeout(reportShare, 7000);
-      
+                generate('warning', 'someOtherTheme', 'no connection', 'topRight', 7000);
             }
         },
         complete: function (xhr, status) {
